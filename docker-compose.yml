@@ -1,0 +1,14 @@
+version: '2.1'
+services:
+  db:
+    container_name: survey-db
+    image: mysql
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db/mysql:/var/lib/mysql
+    restart: always
+    environment:
+        - MYSQL_USER=
+        - MYSWL_PASSWORD=
+        - MYSQL_ROOT_PASSWORD=password
