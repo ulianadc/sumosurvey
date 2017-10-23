@@ -16,7 +16,6 @@ class Question(BaseModel):
     """
     Survey question.
     """
-    is_published = models.BooleanField('is published', default=False)
     published_at = models.DateTimeField('datetime published', blank=True, null=True)
     text = models.CharField('question text', max_length=500)
 
