@@ -1,5 +1,17 @@
 version: '2.1'
 services:
+  server:
+    container_name: survey-server
+    build: ./surveyproj
+    ports:
+      - 8000:8000
+    volumes:
+      - ./surveyproj:/sumo/surveyproj
+    depends_on:
+      - db
+      - redis
+    working_dir: /sumo/surveyproj
+    command: python manage.py runserver 0.0.0.0:8000
   db:
     container_name: survey-db
     image: mysql
@@ -9,6 +21,11 @@ services:
       - ./db/mysql:/var/lib/mysql
     restart: always
     environment:
-        - MYSQL_USER=
-        - MYSWL_PASSWORD=
-        - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=sumosurvey
+      - MYSQL_USER=sumo
+      - MYSQL_PASSWORD=password
+  redis:
+    container_name: survey-redis
+    image: redis:latest
+    restart: on-failure
