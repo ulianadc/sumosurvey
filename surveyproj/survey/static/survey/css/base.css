@@ -1,0 +1,50 @@
+html * {
+    font-family: 'Montserrat', sans-serif;
+}
+
+.poll {
+    /* padding: 0 1em 2em; */
+}
+.poll .radio {
+    border: 1px solid #ddd;
+    border-bottom-width: 0;
+    display: block;
+    padding: .8em;
+}
+.poll label.radio > input {
+    margin-right: .5em;
+}
+.poll .control.checked .radio {
+    background-color: hsl(204, 86%, 53%);
+    /* border-color: #000; */
+    color: #fff;
+    font-weight: bold;
+}
+.poll .control:hover:not(.checked) .radio {
+    background-color: #f6faff;
+    border-color: #ccc;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.08);
+}
+.poll .control:hover:not(.checked) + .control .radio {
+    border-top-color: #ccc;
+}
+.poll .control:first-child .radio {
+    border-bottom: 0;
+    border-radius: 5px 5px 0 0;
+}
+.poll .control:last-child .radio {
+    border-bottom-width: 1px;
+    border-radius: 0 0 5px 5px;
+}
+.poll .field:last-child {
+    margin-top: 1.5em;
+}
+
+.poll-results li {
+    display: block;
+    font-style: italic;
+    padding: 0.5em 0;
+}
+.poll-results li progress {
+    margin-top: 0.2em;
+}

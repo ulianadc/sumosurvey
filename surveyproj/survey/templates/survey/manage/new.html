@@ -1,0 +1,51 @@
+{% extends 'survey/base.html' %}
+
+{% block content %}
+    <div class="notification">
+        <div class="level">
+            <a href="{% url 'survey:manage/index' %}" class="button">Back to list</a>
+        </div>
+    </div>
+    <br>
+    <script type="text/html" id="answer-form-template">
+        <div id="answer-__prefix__">
+            {{ answer_formset.empty_form.as_p }}
+        </div>
+    </script>
+    <script type="text/javascript">
+        $(function() {
+            $('#add-answer-btn').click(function(ev) {
+                ev.preventDefault();
+                var count = $('#answer-forms').children().length;
+                var tmplMarkup = $('#answer-form-template').html();
+                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                $('div#answer-forms').append(compiledTmpl);
+                $('#id_form-TOTAL_FORMS').attr('value', count+1);
+            });
+            $('#remove-answer-btn').click(function(ev) {
+                ev.preventDefault();
+                var count = $('#answer-forms').children().length;
+                $('#answer-forms').children().last().remove();
+                $('#id_form-TOTAL_FORMS').attr('value', count-1);
+            });
+        });
+    </script>
+    <form method="post">
+        {% csrf_token %}
+        <h3 class="title">Create survey question</h3>
+        <p><strong>Question</strong></p>
+        {{ question_form.as_p }}
+        <br>
+        <p><strong>Answers</strong></p>
+        {{ answer_formset.management_form }}
+        <div id="answer-forms">
+        {% for form in answer_formset %}
+            {{ form.as_p }}
+        {% endfor %}
+        </div>
+        <br>
+        <button class="button is-primary" type="submit">Create</button>
+        <a class="button" id="add-answer-btn">Add Answer</a>
+        <a class="button" id="remove-answer-btn">Remove Answer</a>
+    </form>
+{% endblock %}

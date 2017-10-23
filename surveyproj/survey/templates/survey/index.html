@@ -1,9 +1,54 @@
-{% if latest_questions %}
-    <ul>
-    {% for question in latest_questions %}
-        <li><a href="{% url 'survey:detail' question.id %}">{{ question.text }}</a></li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>No polls are available.</p>
-{% endif %}
+{% extends 'survey/base.html' %}
+
+{% block content %}
+<!-- <div class="columns">
+    <div class="column is-two-thirds"> -->
+    {% if question %}
+        <div class="notification is-dark">
+            <p>Published {{ question.published_at | date:"SHORT_DATE_FORMAT" }}</p>
+            <h3 class="title">{{ question.text }}</h3>
+        </div>
+        <script type="text/javascript">
+            $(function() {
+                $('form.poll input[type=radio]').change(function(e) {
+                    var parentControl = $(this).closest('.control');
+                    parentControl.siblings('.control').removeClass('checked');
+                    parentControl.addClass('checked');
+                });
+            });
+        </script>
+        <form class="poll" action="{% url 'survey:vote' question.id %}" method="post">
+        {% csrf_token %}
+            <div class="field">
+            {% for answer in question.answer_set.all %}
+                <div class="control">
+                    <label class="radio" for="answer{{ forloop.counter }}">
+                        <input type="radio" name="answer" id="answer{{ forloop.counter }}" value="{{ answer.id }}">
+                        {{ answer.text }}
+                    </label>
+                </div>
+            {% endfor %}
+            </div>
+            <div class="field is-grouped">
+                <p class="control">
+                    <button class="button is-primary" type="submit">Vote</button>
+                </p>
+                <p class="control">
+                    <a class="button is-light" href="{% url 'survey:results' question.id %}">View Results</a>
+                </p>
+            </div>
+        </form>
+    {% else %}
+        <div class="notification is-dark">
+            <h3 class="title">¿ɓuıuǝddɐɥ sı ʇɐɥM</h3>
+        </div>
+        <p>Good grief, you've answered all the questions! Check back later for new stuff...</p>
+    {% endif %}
+<!--     </div>
+    <div class="column">
+        <div class="notification is-light">
+            <p>Hello, there ;)</p>
+        </div>
+    </div>
+</div> -->
+{% endblock %}

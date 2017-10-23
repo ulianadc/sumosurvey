@@ -1,9 +1,39 @@
-<h1>{{ question.text }}</h1>
+{% extends 'survey/base.html' %}
 
-<ul>
-{% for answer in question.answer_set.all %}
-    <li>{{ answer.text }} -- {{ answer.votes }} vote{{ answer.votes|pluralize }}</li>
-{% endfor %}
-</ul>
+{% block content %}
+<div class="notification is-dark">
+    <p>Results for</p>
+    <h3 class="title">{{ question.text }}</h3>
+</div>
+<div class="columns">
+    <div class="column is-three-fifths">
+      <ul class="poll-results">
+      {% for answer in question.answer_set.all %}
+          <li class="poll-result">
+              <div class="is-pulled-right">{{ answer.votes }} vote{{ answer.votes | pluralize }}</div>
+              {{ answer.text }}
+              <progress class="progress is-medium is-info" value="{{ answer.percent_vote }}" max="100">{{ answer.percent_vote }}%</progress>
+          </li>
+      {% endfor %}
+      </ul>
 
-<a href="{% url 'survey:detail' question.id %}">Vote again?</a>
+      <p class="has-text-centered">
+        <br>
+        <br>
+        <a class="button" href="{% url 'survey:index' %}">Try another survey?</a>
+        <br>
+        <br>
+      </p>
+    </div>
+    <div class="column">
+        <div class="content notification">
+            <h4>Recent votes</h4>
+            <ul>
+            {% for response in recent_responses %}
+                <li>Vote for "{{ response }}" at {{ response.created_at }}</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

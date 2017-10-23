@@ -1,0 +1,31 @@
+{% extends 'survey/base.html' %}
+
+{% block content %}
+    <div class="notification">
+        <div class="level">
+        {{ questions | length }} question{{ questions | length | pluralize }}
+        <a href="{% url 'survey:manage/new' %}" class="button is-pulled-right">Add New</a>
+        </div>
+    </div>
+    <br>
+    <table class="table is-striped is-fullwidth">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Question</th>
+                <th>Publish Date</th>
+                <th># Votes</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for question in questions %}
+            <tr>
+                <td>{{ question.id }}</td>
+                <td>{{ question.text }}</td>
+                <td>{{ question.published_at }}</td>
+                <td>{{ question.total_votes }}</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

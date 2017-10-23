@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 
 class BaseModel(models.Model):
@@ -19,8 +20,14 @@ class Question(BaseModel):
     published_at = models.DateTimeField('datetime published', blank=True, null=True)
     text = models.CharField('question text', max_length=500)
 
+    def is_published(self):
+        return self.published_at and self.published_at < timezone.now()
+
+    def total_votes(self):
+        return sum([a.votes for a in self.answer_set.all()])
+
     def __str__(self):
-        return f'{self.pk}: {self.text}'
+        return self.text
 
 
 class Answer(BaseModel):
@@ -31,8 +38,11 @@ class Answer(BaseModel):
     text = models.CharField('answer text', max_length=500)
     votes = models.IntegerField(default=0)
 
+    def percent_vote(self):
+        return 100 * self.votes / self.question.total_votes()
+
     def __str__(self):
-        return f'{self.pk}: {self.text}'
+        return self.text
 
 
 class Response(BaseModel):
@@ -42,4 +52,4 @@ class Response(BaseModel):
     answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.pk}: {self.answer.text}'
+        return self.answer.text
