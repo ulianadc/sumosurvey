@@ -9,7 +9,6 @@ services:
       - ./surveyproj:/sumo/surveyproj
     depends_on:
       - db
-#      - redis
     working_dir: /sumo/surveyproj
     command: python manage.py runserver 0.0.0.0:8000
   db:
@@ -25,7 +24,3 @@ services:
       - MYSQL_DATABASE=sumosurvey
       - MYSQL_USER=sumo
       - MYSQL_PASSWORD=password
-  # redis:
-  #   container_name: survey-redis
-  #   image: redis:latest
-  #   restart: on-failure
