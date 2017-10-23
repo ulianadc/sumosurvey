@@ -16,8 +16,11 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin, auth
 from django.contrib.auth.views import login, logout
+from django.http import HttpResponseRedirect
+from django.shortcuts import reverse
 
 urlpatterns = [
+    url(r'^$', lambda _: HttpResponseRedirect(reverse('survey:index'))),
     url(r'^surveys/', include('survey.urls')),
     url(r'^admin/', admin.site.urls),
     url(r'^accounts/login/$', auth.views.login, name='login'),

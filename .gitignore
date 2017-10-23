@@ -102,5 +102,6 @@ ENV/
 
 # Other stuff
 .idea/
-db
+db/*
+!db/mysql/backup.sql
 
