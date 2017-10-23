@@ -6,5 +6,6 @@ RUN apt-get update -y
 RUN apt-get install -y libmysqlclient-dev
 
 RUN pip install --upgrade pip
+RUN pip install ipython
 COPY ./requirements.txt /sumo/requirements.txt
 RUN pip install --requirement /sumo/requirements.txt

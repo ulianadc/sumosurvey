@@ -17,7 +17,7 @@ class Question(BaseModel):
     Survey question.
     """
     is_published = models.BooleanField('is published', default=False)
-    published_at = models.DateTimeField('datetime published', null=True)
+    published_at = models.DateTimeField('datetime published', blank=True, null=True)
     text = models.CharField('question text', max_length=500)
 
     def __str__(self):
@@ -40,7 +40,7 @@ class Response(BaseModel):
     """
     Survey answer
     """
-    choice = models.ForeignKey(Answer, on_delete=models.CASCADE)
+    answer = models.ForeignKey(Answer, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f'{self.pk}: {self.choice.text}'
+        return f'{self.pk}: {self.answer.text}'
