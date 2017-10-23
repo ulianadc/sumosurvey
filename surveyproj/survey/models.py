@@ -1,5 +1,4 @@
 from django.db import models
-from django.utils import timezone
 
 
 class BaseModel(models.Model):
@@ -21,18 +20,27 @@ class Question(BaseModel):
     published_at = models.DateTimeField('datetime published', null=True)
     text = models.CharField('question text', max_length=500)
 
+    def __str__(self):
+        return f'{self.pk}: {self.text}'
 
-class Choice(BaseModel):
+
+class Answer(BaseModel):
     """
-    Survey answer choice.
+    One of multiple-choice answers to a survey question.
     """
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     text = models.CharField('answer text', max_length=500)
     votes = models.IntegerField(default=0)
 
+    def __str__(self):
+        return f'{self.pk}: {self.text}'
 
-class Answer(BaseModel):
+
+class Response(BaseModel):
     """
     Survey answer
     """
-    choice = models.ForeignKey(Choice, on_delete=models.CASCADE)
+    choice = models.ForeignKey(Answer, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.pk}: {self.choice.text}'
