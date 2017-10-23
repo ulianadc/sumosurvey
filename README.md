@@ -9,3 +9,5 @@ I have some simple survey questions already populated in the database, which is 
 The lone superuser account is `admin` (password `sumopants`), and can be used to login to either `localhost:8000/admin` or `localhost:8000/surveys/manage`.
 
 Lots more I'd like to do, but ran out of time. Django is interesting and quite a bit more sophisticated than I anticipated. I'm curious about how it scales.
+
+![Screenshot](https://raw.github.com/ulianadc/sumosurvey/master/screenshot.png)
